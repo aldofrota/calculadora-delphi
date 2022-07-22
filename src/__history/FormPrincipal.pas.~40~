@@ -1,0 +1,115 @@
+unit FormPrincipal;
+
+interface
+
+uses
+  System.SysUtils, System.Types, System.UITypes, System.Classes, System.Variants,
+  FMX.Types, FMX.Controls, FMX.Forms, FMX.Graphics, FMX.Dialogs, Skia, Skia.FMX,
+  FMX.Layouts, FMX.Controls.Presentation, FMX.StdCtrls, FMX.Objects,
+  System.StrUtils;
+
+type
+  TFrmPrincipal = class(TForm)
+    Background: TSkAnimatedImage;
+    Componentes: TLayout;
+    ValorNovo: TSkLabel;
+    Btn1: TImage;
+    Btn2: TImage;
+    Btn3: TImage;
+    Btn4: TImage;
+    Btn5: TImage;
+    Btn6: TImage;
+    Btn7: TImage;
+    Btn8: TImage;
+    Btn9: TImage;
+    BtnMultiplicar: TImage;
+    BtnDiminuir: TImage;
+    BtnSomar: TImage;
+    BtnResultado: TImage;
+    BtnDividir: TImage;
+    BtnApagar: TImage;
+    BtnNegativo: TImage;
+    Btn0: TImage;
+    BtnVirgula: TImage;
+    BtnLimpar: TImage;
+    procedure BtnMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
+    procedure BtnMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
+    procedure InserirValorNovoClick(Sender: TObject);
+    procedure BtnApagarClick(Sender: TObject);
+    procedure BtnLimparClick(Sender: TObject);
+    procedure BtnNegativoClick(Sender: TObject);
+  private
+    procedure Rotacionar(Botao: TButton);
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  FrmPrincipal: TFrmPrincipal;
+  Valor: real;
+  Operacao: Integer;
+  valorinteiro: integer;
+
+implementation
+
+{$R *.fmx}
+
+procedure TFrmPrincipal.InserirValorNovoClick(Sender: TObject);
+begin
+  if ValorNovo.Text = '0' then
+    ValorNovo.Text := TButton(Sender).Hint
+  else
+    ValorNovo.Text := ValorNovo.Text + TButton(Sender).Hint
+
+end;
+
+procedure TFrmPrincipal.BtnApagarClick(Sender: TObject);
+var
+  tamanho: integer;
+begin
+  tamanho := length(ValorNovo.Text);
+  if tamanho = 1 then
+    ValorNovo.Text := '0'
+  else
+    ValorNovo.Text := copy(ValorNovo.Text, 1, tamanho - 1);
+end;
+
+procedure TFrmPrincipal.BtnLimparClick(Sender: TObject);
+begin
+  ValorNovo.Text := '0';
+  Valor := 0;
+  Operacao := 0;
+  valorinteiro := 0;
+end;
+
+procedure TFrmPrincipal.Rotacionar(Botao: TButton);
+begin
+  Botao.RotationAngle := 10;
+end;
+
+procedure TFrmPrincipal.BtnMouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
+begin
+  Rotacionar(TButton(Sender));
+end;
+
+procedure TFrmPrincipal.BtnMouseUp(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Single);
+begin
+  TButton(Sender).RotationAngle := 0;
+end;
+
+procedure TFrmPrincipal.BtnNegativoClick(Sender: TObject);
+var
+  tamanho: integer;
+begin
+  if LeftStr(ValorNovo.Text, 1) = '-' then
+  begin
+    tamanho := Length(ValorNovo.Text);
+    ValorNovo.Text := Copy(ValorNovo.Text, 2, tamanho)
+  end
+  else if ValorNovo.Text <> '0' then
+    ValorNovo.Text := '-' + ValorNovo.Text;
+end;
+
+end.
+
